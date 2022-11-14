@@ -6,22 +6,30 @@ import {
     Text,
     InputGroup,
     InputRightElement,
-    Flex
+    Flex,
+    Modal,
+    ModalOverlay,
+    ModalContent,
+    ModalHeader,
+    ModalFooter,
+    ModalBody,
+    ModalCloseButton,
+    useDisclosure
 } from '@chakra-ui/react'
 import { Eye, EyeClosed } from "phosphor-react"
 import { Link } from 'react-router-dom'
 import SingUpLayout from '../components/SingUpLayout'
 
-interface LoginProps { }
+const Register = () => {
+    const { isOpen, onOpen, onClose } = useDisclosure()
 
-const Login = () => {
     const [show, setShow] = React.useState(false)
     const handleClick = () => setShow(!show)
 
     return (
         <SingUpLayout>
             <>
-                <h1 className='text-3xl font-bold '>Hi, there</h1>
+                <Text fontSize='3xl' fontWeight={700}>Hi, let's get it done</Text>
                 <Flex flexDirection={'column'} gap={5}>
                     <FormControl>
                         <FormLabel>Email</FormLabel>
@@ -45,21 +53,31 @@ const Login = () => {
                             </InputRightElement>
                         </InputGroup>
                     </FormControl>
-                    <Flex gap='1' alignItems={'center'} justifyContent={'start'}>
-                        <Text fontSize='sm'>
-                            Don't have account?
-                        </Text>
-                        <Link to="/Register">
-                            <strong>Register now!</strong>
-                        </Link>
-                    </Flex>
-                    <Link to="/Dashboard" >
-                        <Button className='w-full' colorScheme='blue'>Login</Button>
-                    </Link>
+
+                    <Button onClick={onOpen}>Register</Button>
+
+                    <Modal isOpen={isOpen} onClose={onClose}>
+                        <ModalOverlay />
+                        <ModalContent>
+                            <ModalHeader>We got it</ModalHeader>
+                            <ModalCloseButton />
+                            <ModalBody>
+                                Lets continue from here!
+                                <br />
+                                We are registing you, just a second
+                            </ModalBody>
+
+                            <ModalFooter>
+                                <Link to='/Dashboard'>
+                                    <Button variant='ghost'>Get started</Button>
+                                </Link>
+                            </ModalFooter>
+                        </ModalContent>
+                    </Modal>
                 </Flex>
             </>
         </SingUpLayout>
     )
 }
 
-export default Login
+export default Register
