@@ -12,7 +12,7 @@ const ToggleColorMode = () => {
         <div>
 
             <Button onClick={toggleColorMode}>
-                {colorMode === 'light' ? <Sun size={24} /> : <Moon size={24} />}
+                {colorMode === 'light' ? <Sun size={22} /> : <Moon size={22} />}
             </Button>
         </div>
     )
