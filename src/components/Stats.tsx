@@ -31,10 +31,22 @@ import Transactions from "../components/Transactions";
 
 const Stats = () => {
   return (
-    <Grid templateColumns={["repeat(1, 1fr)", "repeat(2, 1fr)"]} p="6" gap="6">
+    <Grid
+      templateColumns={["repeat(1, 1fr)", "repeat(1, 1fr)", "repeat(2, 1fr)"]}
+      p="6"
+      gap="6"
+    >
       {/* Cards */}
       <div>
-        <Grid templateColumns={"repeat(2, 1fr)"} gap="4">
+        <Grid
+          templateColumns={[
+            "repeat(2, 1fr)",
+            "repeat(2, 1fr)",
+            "repeat(1, 1fr)",
+            "repeat(2, 1fr)",
+          ]}
+          gap="4"
+        >
           <Card bg={useColorModeValue("white", "gray.700")}>
             <CardBody>
               <Stat>
@@ -101,7 +113,7 @@ const Stats = () => {
             </CardBody>
           </Card>
 
-          <GridItem colSpan={2}>
+          <GridItem colSpan={[2, 2, 1, 2]}>
             <Card bg={useColorModeValue("white", "gray.700")}>
               <CardBody>
                 <Flex alignItems={"center"} justifyContent="center">
