@@ -12,11 +12,58 @@ import {
   StackDivider,
   WrapItem,
   Avatar,
+  Grid,
+  Badge,
 } from "@chakra-ui/react";
-import { Plus } from "phosphor-react";
+import { Plus, ArrowUpRight } from "phosphor-react";
 import { useState } from "react";
+import MoreModal from "./MoreModal";
+
+const transactions = [
+  {
+    id: 1,
+    name: "Leia Organa",
+    exe1: "$$ 99.00",
+    exe2: "$$ 99.00",
+    exe3: "$$ 99.00",
+    cashin: false,
+    cashout: true,
+  },
+
+  {
+    id: 2,
+    name: "Obi-Wan Kenobi",
+    exe1: "$$ 99.00",
+    exe2: "$$ 99.00",
+    exe3: "$$ 99.00",
+    cashin: true,
+    cashout: false,
+  },
+
+  {
+    id: 3,
+    name: "Darth Vader",
+    exe1: "$$ 99.00",
+    exe2: "$$ 99.00",
+    exe3: "$$ 99.00",
+    cashin: true,
+    cashout: false,
+  },
+
+  {
+    id: 4,
+    name: "Han Solo",
+    exe1: "$$ 99.00",
+    exe2: "$$ 99.00",
+    exe3: "$$ 99.00",
+    cashin: false,
+    cashout: true,
+  },
+];
 
 const Transactions = () => {
+  const [allTransactions, setAllTransactions] = useState(transactions);
+
   return (
     <Stack p="6">
       <Card bg={useColorModeValue("white", "gray.700")}>
@@ -31,173 +78,63 @@ const Transactions = () => {
 
         <CardBody>
           <Stack divider={<StackDivider />} spacing="4">
-            <Flex
-              alignItems="center"
-              justifyContent={"space-between"}
-              gap="12"
-              flexWrap={"wrap"}
-            >
-              <Flex alignItems="center" justifyContent={"center"} gap="2">
-                <WrapItem>
-                  <Avatar name="Leia Organa" size="md" />
-                </WrapItem>
-                <Heading size="xs">Leia Organa</Heading>
-              </Flex>
+            {allTransactions.map((item) => (
+              <Grid
+                templateColumns={[
+                  "repeat(2, 1fr)",
+                  "repeat(2, 1fr)",
+                  "repeat(3, 1fr)",
+                  "repeat(5, 1fr)",
+                ]}
+                w="full"
+                key={item.id}
+                alignItems="center"
+                justifyContent={"space-between"}
+                gap={["4"]}
+                flexWrap={"wrap"}
+              >
+                <Flex alignItems="center" justifyContent={"start"} gap="2">
+                  <WrapItem>
+                    <Avatar name={item.name} size="md" />
+                  </WrapItem>
+                  <Heading size="xs">{item.name}</Heading>
+                </Flex>
 
-              <Box>
-                <Text fontSize="sm">A summary</Text>
-                <Heading size="xs" textTransform="uppercase">
-                  $$ 99.90
-                </Heading>
-              </Box>
+                {item.cashin && (
+                  <Flex alignItems={"center"} justifyContent="center">
+                    <Badge colorScheme="green" p="1">
+                      Cash in
+                    </Badge>
+                  </Flex>
+                )}
 
-              <Box>
-                <Text fontSize="sm">Non elit</Text>
-                <Heading size="xs" textTransform="uppercase">
-                  $$ 99.90
-                </Heading>
-              </Box>
+                {item.cashout && (
+                  <Flex alignItems={"center"} justifyContent="center">
+                    <Badge colorScheme="red" p="1">
+                      Cash in
+                    </Badge>
+                  </Flex>
+                )}
 
-              <Box>
-                <Text fontSize="sm">Adipisicing</Text>
-                <Heading size="xs" textTransform="uppercase">
-                  $$ 99.90
-                </Heading>
-              </Box>
+                <Box>
+                  <Text fontSize="sm">Non elit</Text>
+                  <Heading size="xs" textTransform="uppercase">
+                    $$ 99.90
+                  </Heading>
+                </Box>
 
-              <div>
-                <IconButton
-                  aria-label="Search database"
-                  icon={<Plus size={22} />}
-                />
-              </div>
-            </Flex>
+                <Box>
+                  <Text fontSize="sm">Adipisicing</Text>
+                  <Heading size="xs" textTransform="uppercase">
+                    $$ 99.90
+                  </Heading>
+                </Box>
 
-            <Flex
-              alignItems="center"
-              justifyContent={"space-between"}
-              gap="12"
-              flexWrap={"wrap"}
-            >
-              <Flex alignItems="center" justifyContent={"center"} gap="2">
-                <WrapItem>
-                  <Avatar name="Leia Organa" size="md" />
-                </WrapItem>
-                <Heading size="xs">Leia Organa</Heading>
-              </Flex>
-
-              <Box>
-                <Text fontSize="sm">A summary</Text>
-                <Heading size="xs" textTransform="uppercase">
-                  $$ 99.90
-                </Heading>
-              </Box>
-
-              <Box>
-                <Text fontSize="sm">Non elit</Text>
-                <Heading size="xs" textTransform="uppercase">
-                  $$ 99.90
-                </Heading>
-              </Box>
-
-              <Box>
-                <Text fontSize="sm">Adipisicing</Text>
-                <Heading size="xs" textTransform="uppercase">
-                  $$ 99.90
-                </Heading>
-              </Box>
-
-              <div>
-                <IconButton
-                  aria-label="Search database"
-                  icon={<Plus size={22} />}
-                />
-              </div>
-            </Flex>
-
-            <Flex
-              alignItems="center"
-              justifyContent={"space-between"}
-              gap="12"
-              flexWrap={"wrap"}
-            >
-              <Flex alignItems="center" justifyContent={"center"} gap="2">
-                <WrapItem>
-                  <Avatar name="Leia Organa" size="md" />
-                </WrapItem>
-                <Heading size="xs">Leia Organa</Heading>
-              </Flex>
-
-              <Box>
-                <Text fontSize="sm">A summary</Text>
-                <Heading size="xs" textTransform="uppercase">
-                  $$ 99.90
-                </Heading>
-              </Box>
-
-              <Box>
-                <Text fontSize="sm">Non elit</Text>
-                <Heading size="xs" textTransform="uppercase">
-                  $$ 99.90
-                </Heading>
-              </Box>
-
-              <Box>
-                <Text fontSize="sm">Adipisicing</Text>
-                <Heading size="xs" textTransform="uppercase">
-                  $$ 99.90
-                </Heading>
-              </Box>
-
-              <div>
-                <IconButton
-                  aria-label="Search database"
-                  icon={<Plus size={22} />}
-                />
-              </div>
-            </Flex>
-
-            <Flex
-              alignItems="center"
-              justifyContent={"space-between"}
-              gap="12"
-              flexWrap={"wrap"}
-            >
-              <Flex alignItems="center" justifyContent={"center"} gap="2">
-                <WrapItem>
-                  <Avatar name="Leia Organa" size="md" />
-                </WrapItem>
-                <Heading size="xs">Leia Organa</Heading>
-              </Flex>
-
-              <Box>
-                <Text fontSize="sm">A summary</Text>
-                <Heading size="xs" textTransform="uppercase">
-                  $$ 99.90
-                </Heading>
-              </Box>
-
-              <Box>
-                <Text fontSize="sm">Non elit</Text>
-                <Heading size="xs" textTransform="uppercase">
-                  $$ 99.90
-                </Heading>
-              </Box>
-
-              <Box>
-                <Text fontSize="sm">Adipisicing</Text>
-                <Heading size="xs" textTransform="uppercase">
-                  $$ 99.90
-                </Heading>
-              </Box>
-
-              <div>
-                <IconButton
-                  aria-label="Search database"
-                  icon={<Plus size={22} />}
-                />
-              </div>
-            </Flex>
+                <div>
+                  <MoreModal name={item.name} />
+                </div>
+              </Grid>
+            ))}
           </Stack>
         </CardBody>
       </Card>

@@ -1,13 +1,15 @@
-import { Stack, Heading, Box, Text } from "@chakra-ui/react";
+import { Stack, Heading, Box, Text, Flex } from "@chakra-ui/react";
+import NewTransaction from "./NewTransaction";
 
 const Header = () => {
   return (
-    <Box p="6">
+    <Flex p="6" alignItems={"center"} justifyContent="space-between">
       <Stack>
         <Heading size="lg">Dashboard</Heading>
         <Text fontSize={"14px"}>Good to see you here</Text>
       </Stack>
-    </Box>
+      <NewTransaction />
+    </Flex>
   );
 };
 
