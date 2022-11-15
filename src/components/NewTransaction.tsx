@@ -10,7 +10,20 @@ import {
   useDisclosure,
   Button,
   useColorModeValue,
+  Avatar,
+  Flex,
+  WrapItem,
+  Stack,
+  Text,
 } from "@chakra-ui/react";
+
+const contacts = [
+  { id: 1, name: "Leia Organa" },
+  { id: 2, name: "Obi-Wan Kenobi" },
+  { id: 3, name: "Leia Organa" },
+  { id: 4, name: "Han Solo" },
+  { id: 5, name: "Leia Organa" },
+];
 
 interface props {
   name?: String;
@@ -31,18 +44,33 @@ const NewTransaction = ({ name = "Pedro Nogueira" }: props) => {
         New transaction
       </Button>
 
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal isOpen={isOpen} onClose={onClose} size={"xl"}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Modal Title</ModalHeader>
+          <ModalHeader>New Transition</ModalHeader>
           <ModalCloseButton />
-          <ModalBody>{name}</ModalBody>
+          <ModalBody>
+            <div className="flex items-start justify-center gap-8 overflow-y-auto ">
+              {contacts.map((item) => (
+                <Flex
+                  key={item.id}
+                  flexDirection={"column"}
+                  alignItems="center"
+                  justifyContent={"center"}
+                  textAlign="center"
+                  gap="2"
+                >
+                  <Avatar name={item.name} size={"lg"} />
+                  <Text fontSize="xs">{item.name}</Text>
+                </Flex>
+              ))}
+            </div>
+          </ModalBody>
 
           <ModalFooter>
             <Button colorScheme="blue" mr={3} onClick={onClose}>
-              Close
+              Cancel
             </Button>
-            <Button variant="ghost">Secondary Action</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
