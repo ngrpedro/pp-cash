@@ -1,4 +1,4 @@
-import SideBar from "../components/SideBar";
+import image from "../assets/finance.svg";
 import {
   Flex,
   useColorModeValue,
@@ -12,7 +12,7 @@ import {
   StatNumber,
   StatHelpText,
   CircularProgress,
-  CircularProgressLabel,
+  Heading,
 } from "@chakra-ui/react";
 import {
   Plus,
@@ -25,9 +25,9 @@ import {
   CheckSquareOffset,
   CheckCircle,
   Image,
+  ArrowDown,
+  ArrowUp,
 } from "phosphor-react";
-import { useState } from "react";
-import Transactions from "../components/Transactions";
 
 const Stats = () => {
   return (
@@ -55,11 +55,11 @@ const Stats = () => {
                   <Flex alignItems={"center"} justifyContent={"space-between"}>
                     R$ 0.00
                     <Box color={useColorModeValue("green.600", "green.200")}>
-                      <ChartLineUp size={32} />
+                      <ArrowDown size={32} />
                     </Box>
                   </Flex>
                 </StatNumber>
-                <StatHelpText>Feb 12 - Feb 28</StatHelpText>
+                <StatHelpText>Income</StatHelpText>
               </Stat>
             </CardBody>
           </Card>
@@ -71,71 +71,31 @@ const Stats = () => {
                 <StatNumber>
                   <Flex alignItems={"center"} justifyContent={"space-between"}>
                     R$ 0.00
-                    <Box>
-                      <CheckSquareOffset size={32} />
+                    <Box color={useColorModeValue("red.600", "red.200")}>
+                      <ArrowUp size={32} />
                     </Box>
                   </Flex>
                 </StatNumber>
-                <StatHelpText>Feb 12 - Feb 28</StatHelpText>
+                <StatHelpText>Expence</StatHelpText>
               </Stat>
             </CardBody>
           </Card>
 
-          <Card bg={useColorModeValue("white", "gray.700")}>
-            <CardBody>
-              <Stat>
-                <StatLabel></StatLabel>
-                <StatNumber>
-                  <Flex alignItems={"center"} justifyContent={"space-between"}>
-                    R$ 0.00
-                    <Box>
-                      <AlignTop size={32} />
-                    </Box>
-                  </Flex>
-                </StatNumber>
-              </Stat>
-            </CardBody>
-          </Card>
-
-          <Card bg={useColorModeValue("white", "gray.700")}>
-            <CardBody>
-              <Stat>
-                <StatLabel></StatLabel>
-                <StatNumber>
-                  <Flex alignItems={"center"} justifyContent={"space-between"}>
-                    R$ 0.00
-                    <Box color={useColorModeValue("yellow.600", "yellow.200")}>
-                      <WarningCircle size={32} />
-                    </Box>
-                  </Flex>
-                </StatNumber>
-              </Stat>
-            </CardBody>
-          </Card>
-
-          <GridItem colSpan={[2, 2, 1, 2]}>
-            <Card bg={useColorModeValue("white", "gray.700")}>
+          <GridItem colSpan={[2, 2, 1, 2]} rowSpan={2}>
+            <Card bg={useColorModeValue("blue.700", "gray.500")} h={["full"]}>
               <CardBody>
-                <Flex alignItems={"center"} justifyContent="center">
-                  <Stat>
-                    <StatLabel></StatLabel>
-                    <StatHelpText>
-                      Pariatur qui aute sint minim nisi.
-                    </StatHelpText>
-                    <StatNumber>
-                      <Flex
-                        alignItems={"center"}
-                        justifyContent={"space-between"}
-                      >
-                        65.000 / 22.568
-                      </Flex>
-                    </StatNumber>
-                  </Stat>
-                  <Box>
-                    <CircularProgress value={40} color="gray.600" size="68px">
-                      <CircularProgressLabel>40%</CircularProgressLabel>
-                    </CircularProgress>
-                  </Box>
+                <Flex
+                  alignItems={"center"}
+                  justifyContent="center"
+                  gap="5"
+                  flexDirection={["row", "row", "column", "row"]}
+                  color={useColorModeValue("white", "white")}
+                >
+                  <Heading fontSize={["lg", "2xl", "lg", "3xl"]}>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elitv
+                    ipsum dolor
+                  </Heading>
+                  <img src={image} alt="" className="w-40" />
                 </Flex>
               </CardBody>
             </Card>
