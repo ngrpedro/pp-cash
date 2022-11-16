@@ -14,56 +14,20 @@ import {
   Avatar,
   Grid,
   Badge,
+  RadioGroup,
+  Radio,
 } from "@chakra-ui/react";
 import { Plus, ArrowUpRight } from "phosphor-react";
 import { useState } from "react";
+import { items } from "../data/items";
+import { Item } from "../types/Item";
 import MoreModal from "./MoreModal";
 
-const transactions = [
-  {
-    id: 1,
-    name: "Leia Organa",
-    exe1: "$$ 99.00",
-    exe2: "$$ 99.00",
-    exe3: "$$ 99.00",
-    cashin: false,
-    cashout: true,
-  },
-
-  {
-    id: 2,
-    name: "Obi-Wan Kenobi",
-    exe1: "$$ 99.00",
-    exe2: "$$ 99.00",
-    exe3: "$$ 99.00",
-    cashin: true,
-    cashout: false,
-  },
-
-  {
-    id: 3,
-    name: "Darth Vader",
-    exe1: "$$ 99.00",
-    exe2: "$$ 99.00",
-    exe3: "$$ 99.00",
-    cashin: true,
-    cashout: false,
-  },
-
-  {
-    id: 4,
-    name: "Han Solo",
-    exe1: "$$ 99.00",
-    exe2: "$$ 99.00",
-    exe3: "$$ 99.00",
-    cashin: false,
-    cashout: true,
-  },
-];
-
 const Transactions = () => {
-  const [allTransactions, setAllTransactions] = useState(transactions);
+  const [list, setList] = useState(items);
+  const [filteredList, setFilteredList] = useState<Item[]>([]);
 
+  const [chash, setCash] = useState("");
   return (
     <Stack p="6">
       <Card bg={useColorModeValue("white", "gray.700")}>
@@ -71,14 +35,35 @@ const Transactions = () => {
           bg={useColorModeValue("gray.700", "gray.700")}
           roundedTop="8"
         >
-          <Heading size="md" color={useColorModeValue("white", "white")}>
-            Cash In - Cash Out
-          </Heading>
+          <Flex
+            maxWidth={"1200px"}
+            justifyContent="space-between"
+            alignItems={"center"}
+          >
+            <Heading size="md" color={useColorModeValue("white", "white")}>
+              Cash In - Cash Out
+            </Heading>
+
+            <RadioGroup
+              defaultValue="2"
+              onChange={(e) => setCash(e.ta)}
+              color={useColorModeValue("white", "white")}
+            >
+              <Stack spacing={5} direction="row">
+                <Radio colorScheme="red" value="1">
+                  Radio
+                </Radio>
+                <Radio colorScheme="green" value="2">
+                  Radio
+                </Radio>
+              </Stack>
+            </RadioGroup>
+          </Flex>
         </CardHeader>
 
         <CardBody>
           <Stack divider={<StackDivider />} spacing="4">
-            {allTransactions.map((item) => (
+            {list.map((item, index) => (
               <Grid
                 templateColumns={[
                   "repeat(2, 1fr)",
@@ -87,7 +72,7 @@ const Transactions = () => {
                   "repeat(5, 1fr)",
                 ]}
                 w="full"
-                key={item.id}
+                key={index}
                 alignItems="center"
                 justifyContent={"space-between"}
                 gap={["4"]}
@@ -95,12 +80,12 @@ const Transactions = () => {
               >
                 <Flex alignItems="center" justifyContent={"start"} gap="2">
                   <WrapItem>
-                    <Avatar name={item.name} size="md" />
+                    <Avatar name={item.contact} size="md" />
                   </WrapItem>
-                  <Heading size="xs">{item.name}</Heading>
+                  <Heading size="xs">{item.contact}</Heading>
                 </Flex>
 
-                {item.cashin && (
+                {item.cash === "in" && (
                   <Flex alignItems={"center"} justifyContent="center">
                     <Badge colorScheme="green" p="1">
                       Cash in
@@ -108,7 +93,7 @@ const Transactions = () => {
                   </Flex>
                 )}
 
-                {item.cashout && (
+                {item.cash === "out" && (
                   <Flex alignItems={"center"} justifyContent="center">
                     <Badge colorScheme="red" p="1">
                       Cash in
@@ -119,19 +104,12 @@ const Transactions = () => {
                 <Box>
                   <Text fontSize="sm">Non elit</Text>
                   <Heading size="xs" textTransform="uppercase">
-                    $$ 99.90
-                  </Heading>
-                </Box>
-
-                <Box>
-                  <Text fontSize="sm">Adipisicing</Text>
-                  <Heading size="xs" textTransform="uppercase">
-                    $$ 99.90
+                    R$ {item.value}
                   </Heading>
                 </Box>
 
                 <div>
-                  <MoreModal name={item.name} />
+                  <MoreModal name={item.contact} />
                 </div>
               </Grid>
             ))}
