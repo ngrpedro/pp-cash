@@ -13,6 +13,7 @@ import {
 import { Eye, EyeClosed } from "phosphor-react";
 import { Link } from "react-router-dom";
 import SingUpLayout from "../components/SingUpLayout";
+import ToggleColorMode from "../components/ToggleColorMode";
 
 interface LoginProps {}
 
@@ -23,7 +24,11 @@ const Login = () => {
   return (
     <SingUpLayout>
       <>
-        <h1 className="text-3xl font-bold ">Hi, there</h1>
+        <Flex alignItems={"center"} justifyContent="space-between">
+          <h1 className="text-3xl font-bold ">Wellcome!!</h1>
+          <ToggleColorMode />
+        </Flex>
+
         <Flex flexDirection={"column"} gap={5}>
           <FormControl>
             <FormLabel>Email</FormLabel>
