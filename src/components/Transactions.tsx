@@ -46,7 +46,6 @@ const Transactions = () => {
 
             <RadioGroup
               defaultValue="2"
-              onChange={(e) => setCash(e.ta)}
               color={useColorModeValue("white", "white")}
             >
               <Stack spacing={5} direction="row">
