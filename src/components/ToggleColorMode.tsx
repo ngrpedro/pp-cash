@@ -1,21 +1,20 @@
-import { Button, useColorMode } from '@chakra-ui/react'
-import { useState } from 'react'
-import {
-    Sun,
-    Moon
-} from 'phosphor-react'
+import { Button, useColorMode, useColorModeValue } from "@chakra-ui/react";
+import { useState } from "react";
+import { Sun, Moon } from "phosphor-react";
 
 const ToggleColorMode = () => {
-    const { colorMode, toggleColorMode } = useColorMode()
+  const { colorMode, toggleColorMode } = useColorMode();
 
-    return (
-        <div>
+  return (
+    <div>
+      <Button
+        onClick={toggleColorMode}
+        bg={useColorModeValue("white", "gray.800")}
+      >
+        {colorMode === "light" ? <Sun size={22} /> : <Moon size={22} />}
+      </Button>
+    </div>
+  );
+};
 
-            <Button onClick={toggleColorMode}>
-                {colorMode === 'light' ? <Sun size={22} /> : <Moon size={22} />}
-            </Button>
-        </div>
-    )
-}
-
-export default ToggleColorMode
+export default ToggleColorMode;

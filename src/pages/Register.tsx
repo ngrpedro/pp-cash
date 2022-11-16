@@ -42,13 +42,21 @@ const Register = () => {
         <Flex flexDirection={"column"} gap={5}>
           <FormControl>
             <FormLabel>Email</FormLabel>
-            <Input pr="4.5rem" type="text" />
+            <Input
+              pr="4.5rem"
+              type="text"
+              _focusVisible={{ borderColor: "black" }}
+            />
           </FormControl>
 
           <FormControl>
             <FormLabel>Password</FormLabel>
             <InputGroup size="md">
-              <Input pr="4.5rem" type={show ? "text" : "password"} />
+              <Input
+                pr="4.5rem"
+                type={show ? "text" : "password"}
+                _focusVisible={{ borderColor: "black" }}
+              />
               <InputRightElement width="4.5rem">
                 <Button h="1.75rem" size="sm" onClick={handleClick}>
                   {show ? <Eye size={24} /> : <EyeClosed size={24} />}

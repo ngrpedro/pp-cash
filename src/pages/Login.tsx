@@ -35,7 +35,8 @@ const Login = () => {
             <Input
               pr="4.5rem"
               type="text"
-              bg={useColorModeValue("gray.100", "gray.500")}
+              bg={useColorModeValue("white", "gray.800")}
+              _focusVisible={{ borderColor: "black" }}
             />
           </FormControl>
 
@@ -45,10 +46,16 @@ const Login = () => {
               <Input
                 pr="4.5rem"
                 type={show ? "text" : "password"}
-                bg={useColorModeValue("gray.100", "gray.500")}
+                bg={useColorModeValue("white", "gray.800")}
+                _focusVisible={{ borderColor: "black" }}
               />
               <InputRightElement width="4.5rem">
-                <Button h="1.75rem" size="sm" onClick={handleClick}>
+                <Button
+                  h="1.75rem"
+                  size="sm"
+                  bg={useColorModeValue("white", "gray.800")}
+                  onClick={handleClick}
+                >
                   {show ? <Eye size={24} /> : <EyeClosed size={24} />}
                 </Button>
               </InputRightElement>
@@ -61,7 +68,11 @@ const Login = () => {
             </Link>
           </Flex>
           <Link to="/Dashboard">
-            <Button className="w-full" colorScheme="blue">
+            <Button
+              className="w-full"
+              bg={useColorModeValue("black", "gray.100")}
+              color={useColorModeValue("white", "black")}
+            >
               Login
             </Button>
           </Link>
