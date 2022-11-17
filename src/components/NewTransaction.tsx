@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Modal,
   ModalOverlay,
@@ -15,22 +15,36 @@ import {
   WrapItem,
   Stack,
   Text,
+  FormControl,
+  FormLabel,
+  Input,
+  GridItem,
+  Grid,
+  Box,
+  ListItem,
+  UnorderedList,
 } from "@chakra-ui/react";
+import { items } from "../data/items";
+import ConfirmTransaction from "./ConfirmTransaction";
 
-const contacts = [
-  { id: 1, name: "Leia Organa" },
-  { id: 2, name: "Obi-Wan Kenobi" },
-  { id: 3, name: "Leia Organa" },
-  { id: 4, name: "Han Solo" },
-  { id: 5, name: "Leia Organa" },
-];
+const NewTransaction = () => {
+  const [list, setList] = useState(items);
 
-interface props {
-  name?: String;
-}
-
-const NewTransaction = ({ name = "Pedro Nogueira" }: props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const [contact, setContact] = useState("");
+  const [mount, setMount] = useState("");
+
+  const setTransaction = () => {
+    const transaction = {
+      contact,
+      value: mount,
+    };
+
+    console.log(transaction);
+    onClose();
+  };
+
   return (
     <div>
       <Button
@@ -44,34 +58,80 @@ const NewTransaction = ({ name = "Pedro Nogueira" }: props) => {
         New transaction
       </Button>
 
-      <Modal isOpen={isOpen} onClose={onClose} size={"xl"}>
+      <Modal isOpen={isOpen} onClose={onClose} size={"md"}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>New Transition</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <div className="flex items-start justify-center gap-8 overflow-y-auto ">
-              {contacts.map((item) => (
-                <Flex
-                  key={item.id}
-                  flexDirection={"column"}
-                  alignItems="center"
-                  justifyContent={"center"}
-                  textAlign="center"
-                  gap="2"
-                >
-                  <Avatar name={item.name} size={"lg"} />
-                  <Text fontSize="xs">{item.name}</Text>
-                </Flex>
-              ))}
-            </div>
+            <Text pb="4" fontSize={"xs"}>
+              Selecione o contato e informe um valor
+            </Text>
+            <form className="flex flex-col gap-10">
+              <div className="flex items-start justify-center gap-3 overflow-y-auto">
+                {list.map((item, index) => (
+                  <Button
+                    h="20"
+                    className="snap-center snap-always"
+                    cursor={"pointer"}
+                    key={index}
+                    flexDirection={"column"}
+                    alignItems="center"
+                    justifyContent={"center"}
+                    textAlign="center"
+                    gap="2"
+                    onClick={(e) => setContact(item.contact)}
+                    _hover={{
+                      bg: useColorModeValue("white", "gray.800"),
+                    }}
+                    _active={{
+                      bg: useColorModeValue("white", "gray.800"),
+                    }}
+                    bg="transparent"
+                    rounded="6"
+                    p="2"
+                  >
+                    <Avatar name={item.contact} size={"md"} />
+                    <Text fontSize="xs">{item.contact}</Text>
+                  </Button>
+                ))}
+              </div>
+              <Grid
+                templateColumns={["repeat(1, 1fr)", "repeat(2, 1fr)"]}
+                alignItems="end"
+                justifyContent={"center"}
+                gap="50"
+              >
+                <GridItem>
+                  <FormControl className="md:ml-4">
+                    <FormLabel>Valor</FormLabel>
+                    <Input
+                      pr="4.5rem"
+                      type="number"
+                      bg={useColorModeValue("white", "gray.800")}
+                      _focusVisible={{ borderColor: "black" }}
+                      onChange={(e) => setMount(e.target.value)}
+                    />
+                  </FormControl>
+                </GridItem>
+                <GridItem>
+                  {contact.length > 0 && (
+                    <Box>
+                      <Text>Enviar para: {contact}</Text>
+                      <Text>
+                        Valor de: {mount} {mount.length > 0 && "reais"}
+                      </Text>
+                    </Box>
+                  )}
+                </GridItem>
+              </Grid>
+            </form>
           </ModalBody>
 
-          <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={onClose}>
-              Cancel
-            </Button>
-          </ModalFooter>
+          <Box p="10" w="full" float={"right"} className="space-x-4">
+            <Button onClick={onClose}>Cancel</Button>
+            <ConfirmTransaction setTransaction={setTransaction} />
+          </Box>
         </ModalContent>
       </Modal>
     </div>
