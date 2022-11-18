@@ -72,6 +72,12 @@ const Login = () => {
               className="w-full"
               bg={useColorModeValue("black", "gray.100")}
               color={useColorModeValue("white", "black")}
+              _hover={{
+                bg: useColorModeValue("gray.700", "gray.400"),
+              }}
+              _active={{
+                bg: useColorModeValue("gray.700", "gray.400"),
+              }}
             >
               Login
             </Button>
