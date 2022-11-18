@@ -20,7 +20,7 @@ import {
 } from "@chakra-ui/react";
 
 import ConfirmTransaction from "./ConfirmTransaction";
-import { gql, useQuery } from "@apollo/client";
+import { gql, useQuery, useMutation } from "@apollo/client";
 
 const GET_CONTACTS_QUERY = gql`
   query {
@@ -38,19 +38,40 @@ interface GetQueryContacts {
   }[];
 }
 
+const CREATE_TRANSACTION_MUTATION = gql`
+  mutation createTransaction($id: ID, $amount: Int, $cashin: false) {
+    createTransaction(
+      data: {
+        name: { connect: { Contact: { id: $id } } }
+        cashin: false
+        amount: $amount
+      }
+    ) {
+      id
+    }
+  }
+`;
+
 const NewTransaction = () => {
   const { data } = useQuery<GetQueryContacts>(GET_CONTACTS_QUERY);
+  const [addTransaction] = useMutation(CREATE_TRANSACTION_MUTATION);
+
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [contact, setContact] = useState("");
-  const [mount, setMount] = useState("");
+  const [id, setId] = useState("");
+  const [amount, setAmount] = useState(0);
 
   const setTransaction = () => {
     const transaction = {
-      contact,
-      value: mount,
+      id,
+      amount,
     };
 
-    console.log(transaction);
+    addTransaction({
+      variables: {
+        id,
+        amount,
+      },
+    });
     onClose();
   };
 
@@ -89,7 +110,7 @@ const NewTransaction = () => {
                     justifyContent={"center"}
                     textAlign="center"
                     gap="2"
-                    onClick={(e) => setContact(item.name)}
+                    onClick={(e) => setId(item.id)}
                     _hover={{
                       bg: useColorModeValue("white", "gray.800"),
                     }}
@@ -119,16 +140,17 @@ const NewTransaction = () => {
                       type="number"
                       bg={useColorModeValue("white", "gray.800")}
                       _focusVisible={{ borderColor: "black" }}
-                      onChange={(e) => setMount(e.target.value)}
+                      onChange={(e) => setAmount(parseInt(e.target.value))}
                     />
                   </FormControl>
                 </GridItem>
                 <GridItem>
-                  {contact.length > 0 && (
+                  {id.length > 0 && (
                     <Box>
-                      <Text>Enviar para: {contact}</Text>
+                      <Text>Enviar para: {id}</Text>
                       <Text>
-                        Valor de: {mount} {mount.length > 0 && "reais"}
+                        Valor de: {amount}
+                        {/* {amount.length > 0 && "reais"} */}
                       </Text>
                     </Box>
                   )}
