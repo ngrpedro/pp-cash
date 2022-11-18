@@ -2,45 +2,18 @@ import {
   Flex,
   useColorModeValue,
   Heading,
-  IconButton,
-  Box,
-  Text,
   Stack,
   Card,
   CardBody,
   CardHeader,
   StackDivider,
-  WrapItem,
-  Avatar,
-  Grid,
-  Badge,
   RadioGroup,
   Radio,
-  GridItem,
-  Tag,
 } from "@chakra-ui/react";
 
-import { Plus, ArrowUpRight } from "phosphor-react";
-import { useState } from "react";
-import { items } from "../data/items";
-import { Item } from "../types/Item";
-import MoreModal from "./MoreModal";
-import ptBR from "date-fns/locale/pt-BR";
 import { gql, useQuery } from "@apollo/client";
 import TransactionItem from "./TransactionItem";
-
-interface GetQueryTransactions {
-  transactions: {
-    id: string;
-    obs: string;
-    name: {
-      name: string;
-    };
-    amount: number;
-    cashin: boolean;
-    createdAt: string;
-  }[];
-}
+import { GetQueryTransactions } from "../types/Item";
 
 const GET_TRANSACTIONS_QUERY = gql`
   query {
@@ -60,8 +33,6 @@ const GET_TRANSACTIONS_QUERY = gql`
 `;
 
 const Transactions = () => {
-  /* const [list, setList] = useState(items); */
-
   const { data } = useQuery<GetQueryTransactions>(GET_TRANSACTIONS_QUERY);
 
   console.log(data);

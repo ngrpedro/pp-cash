@@ -1,5 +1,12 @@
-export type Item = {
-  contact: string;
-  cash: string;
-  value: number;
-};
+export interface GetQueryTransactions {
+  transactions: {
+    id: string;
+    obs: string;
+    name: {
+      name: string;
+    };
+    amount: number;
+    cashin: boolean;
+    createdAt: string;
+  }[];
+}
