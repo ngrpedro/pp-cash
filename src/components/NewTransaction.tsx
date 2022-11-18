@@ -21,6 +21,7 @@ import {
 
 import ConfirmTransaction from "./ConfirmTransaction";
 import { gql, useQuery, useMutation } from "@apollo/client";
+import { GetQueryContacts } from "../types/Item";
 
 const GET_CONTACTS_QUERY = gql`
   query {
@@ -31,21 +32,10 @@ const GET_CONTACTS_QUERY = gql`
   }
 `;
 
-interface GetQueryContacts {
-  contacts: {
-    id: string;
-    name: string;
-  }[];
-}
-
 const CREATE_TRANSACTION_MUTATION = gql`
-  mutation createTransaction($id: ID, $amount: Int, $cashin: false) {
+  mutation createTransaction($id: ID, $amount: Int) {
     createTransaction(
-      data: {
-        name: { connect: { Contact: { id: $id } } }
-        cashin: false
-        amount: $amount
-      }
+      data: { name: { connect: { Contact: { id: $id } } }, amount: $amount }
     ) {
       id
     }
