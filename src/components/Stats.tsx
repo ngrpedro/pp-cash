@@ -91,7 +91,7 @@ const Stats = () => {
                   flexDirection={["row", "row", "column", "row"]}
                   color={useColorModeValue("white", "white")}
                 >
-                  <Heading fontSize={["lg", "2xl", "lg", "3xl"]}>
+                  <Heading fontSize={["lg", "2xl", "lg", "xl", "2xl"]}>
                     Lorem ipsum dolor sit amet, consectetur adipiscing elitv
                     ipsum dolor
                   </Heading>
