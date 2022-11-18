@@ -1,19 +1,15 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Modal,
   ModalOverlay,
   ModalContent,
   ModalHeader,
-  ModalFooter,
   ModalBody,
   ModalCloseButton,
   useDisclosure,
   Button,
   useColorModeValue,
   Avatar,
-  Flex,
-  WrapItem,
-  Stack,
   Text,
   FormControl,
   FormLabel,
@@ -21,17 +17,30 @@ import {
   GridItem,
   Grid,
   Box,
-  ListItem,
-  UnorderedList,
 } from "@chakra-ui/react";
-import { items } from "../data/items";
+
 import ConfirmTransaction from "./ConfirmTransaction";
+import { gql, useQuery } from "@apollo/client";
+
+const GET_CONTACTS_QUERY = gql`
+  query {
+    contacts {
+      id
+      name
+    }
+  }
+`;
+
+interface GetQueryContacts {
+  contacts: {
+    id: string;
+    name: string;
+  }[];
+}
 
 const NewTransaction = () => {
-  const [list, setList] = useState(items);
-
+  const { data } = useQuery<GetQueryContacts>(GET_CONTACTS_QUERY);
   const { isOpen, onOpen, onClose } = useDisclosure();
-
   const [contact, setContact] = useState("");
   const [mount, setMount] = useState("");
 
@@ -68,19 +77,19 @@ const NewTransaction = () => {
               Selecione o contato e informe um valor
             </Text>
             <form className="flex flex-col gap-10">
-              <div className="flex items-start justify-center gap-3 overflow-y-auto">
-                {list.map((item, index) => (
+              <div className="flex items-start justify-start gap-3 overflow-y-auto">
+                {data?.contacts.map((item) => (
                   <Button
+                    key={item.id}
                     h="20"
                     className="snap-center snap-always"
                     cursor={"pointer"}
-                    key={index}
                     flexDirection={"column"}
                     alignItems="center"
                     justifyContent={"center"}
                     textAlign="center"
                     gap="2"
-                    onClick={(e) => setContact(item.contact)}
+                    onClick={(e) => setContact(item.name)}
                     _hover={{
                       bg: useColorModeValue("white", "gray.800"),
                     }}
@@ -91,8 +100,8 @@ const NewTransaction = () => {
                     rounded="6"
                     p="2"
                   >
-                    <Avatar name={item.contact} size={"md"} />
-                    <Text fontSize="xs">{item.contact}</Text>
+                    <Avatar name={item.name} size={"md"} />
+                    <Text fontSize="xs">{item.name}</Text>
                   </Button>
                 ))}
               </div>

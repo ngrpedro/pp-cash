@@ -10,3 +10,10 @@ export interface GetQueryTransactions {
     createdAt: string;
   }[];
 }
+
+export interface GetQueryContacts {
+  contacts: {
+    id: string;
+    name: string;
+  }[];
+}

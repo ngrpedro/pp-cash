@@ -11,7 +11,6 @@ const Dashboard = () => {
         <TopBar />
         <Header />
         <Stats />
-        <Transactions />
       </SideBar>
     </div>
   );

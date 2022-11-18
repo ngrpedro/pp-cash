@@ -9,7 +9,9 @@ import {
   useColorModeValue,
   Text,
   Tag,
+  Box,
 } from "@chakra-ui/react";
+import { ArrowDown, ArrowUp } from "phosphor-react";
 
 interface TransactionProps {
   id: string;
@@ -26,10 +28,10 @@ const TransactionItem = (props: TransactionProps) => {
   return (
     <Grid
       key={props.id}
-      templateColumns={["repeat(2, 1fr)", "repeat(4, 1fr)"]}
+      templateColumns={["repeat(2, 1fr)", "repeat(4, 1fr)",  "repeat(2, 1fr)", "repeat(4, 1fr)"]}
       alignItems="center"
       justifyContent={"start"}
-      gap='3'
+      gap="3"
     >
       <GridItem>
         <Flex alignItems={"center"} justifyContent="start" gap={"2"}>
@@ -42,16 +44,24 @@ const TransactionItem = (props: TransactionProps) => {
 
       <GridItem>
         {props.cashin ? (
-          <Tag bg={useColorModeValue("red.200", "red.500")}>
-            <Text fontSize={"md"} fontWeight="bold">
-              Cash-out
-            </Text>
+          <Tag
+            rounded={"full"}
+            p="2"
+            bg={useColorModeValue("red.200", "red.500")}
+          >
+            <Box color={useColorModeValue("red.600", "red.200")}>
+              <ArrowUp size={22} />
+            </Box>
           </Tag>
         ) : (
-          <Tag bg={useColorModeValue("green.200", "green.500")}>
-            <Text fontSize={"md"} fontWeight="bold">
-              Cash-in
-            </Text>
+          <Tag
+            rounded={"full"}
+            p="2"
+            bg={useColorModeValue("green.200", "green.500")}
+          >
+            <Box color={useColorModeValue("green.600", "green.200")}>
+              <ArrowDown size={22} />
+            </Box>
           </Tag>
         )}
       </GridItem>

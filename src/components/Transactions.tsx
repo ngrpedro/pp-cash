@@ -38,16 +38,17 @@ const Transactions = () => {
   console.log(data);
 
   return (
-    <Stack p="6">
+    <>
       <Card bg={useColorModeValue("white", "gray.700")}>
         <CardHeader
           bg={useColorModeValue("gray.700", "gray.700")}
           roundedTop="8"
         >
           <Flex
+            direction={["column", "row", "column", "row"]}
             maxWidth={"1200px"}
-            justifyContent="space-between"
-            alignItems={"center"}
+            justifyContent={["start", "space-between"]}
+            alignItems={["start", "center"]}
           >
             <Heading size="md" color={useColorModeValue("white", "white")}>
               Cash In - Cash Out
@@ -77,7 +78,7 @@ const Transactions = () => {
           </Stack>
         </CardBody>
       </Card>
-    </Stack>
+    </>
   );
 };
 
