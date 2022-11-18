@@ -16,18 +16,56 @@ import {
   Badge,
   RadioGroup,
   Radio,
+  GridItem,
+  Tag,
 } from "@chakra-ui/react";
+
 import { Plus, ArrowUpRight } from "phosphor-react";
 import { useState } from "react";
 import { items } from "../data/items";
 import { Item } from "../types/Item";
 import MoreModal from "./MoreModal";
+import ptBR from "date-fns/locale/pt-BR";
+import { gql, useQuery } from "@apollo/client";
+import TransactionItem from "./TransactionItem";
+
+interface GetQueryTransactions {
+  transactions: {
+    id: string;
+    obs: string;
+    name: {
+      name: string;
+    };
+    amount: number;
+    cashin: boolean;
+    createdAt: string;
+  }[];
+}
+
+const GET_TRANSACTIONS_QUERY = gql`
+  query {
+    transactions {
+      id
+      obs
+      name {
+        ... on Contact {
+          name
+        }
+      }
+      amount
+      cashin
+      createdAt
+    }
+  }
+`;
 
 const Transactions = () => {
-  const [list, setList] = useState(items);
-  const [filteredList, setFilteredList] = useState<Item[]>([]);
+  /* const [list, setList] = useState(items); */
 
-  const [chash, setCash] = useState("");
+  const { data } = useQuery<GetQueryTransactions>(GET_TRANSACTIONS_QUERY);
+
+  console.log(data);
+
   return (
     <Stack p="6">
       <Card bg={useColorModeValue("white", "gray.700")}>
@@ -62,55 +100,8 @@ const Transactions = () => {
 
         <CardBody>
           <Stack divider={<StackDivider />} spacing="4">
-            {list.map((item, index) => (
-              <Grid
-                templateColumns={[
-                  "repeat(2, 1fr)",
-                  "repeat(2, 1fr)",
-                  "repeat(3, 1fr)",
-                  "repeat(5, 1fr)",
-                ]}
-                w="full"
-                key={index}
-                alignItems="center"
-                justifyContent={"space-between"}
-                gap={["4"]}
-                flexWrap={"wrap"}
-              >
-                <Flex alignItems="center" justifyContent={"start"} gap="2">
-                  <WrapItem>
-                    <Avatar name={item.contact} size="md" />
-                  </WrapItem>
-                  <Heading size="xs">{item.contact}</Heading>
-                </Flex>
-
-                {item.cash === "in" && (
-                  <Flex alignItems={"center"} justifyContent="center">
-                    <Badge colorScheme="green" p="1">
-                      Cash in
-                    </Badge>
-                  </Flex>
-                )}
-
-                {item.cash === "out" && (
-                  <Flex alignItems={"center"} justifyContent="center">
-                    <Badge colorScheme="red" p="1">
-                      Cash in
-                    </Badge>
-                  </Flex>
-                )}
-
-                <Box>
-                  <Text fontSize="sm">Non elit</Text>
-                  <Heading size="xs" textTransform="uppercase">
-                    R$ {item.value}
-                  </Heading>
-                </Box>
-
-                <div>
-                  <MoreModal name={item.contact} />
-                </div>
-              </Grid>
+            {data?.transactions.map((item) => (
+              <TransactionItem key={item.id} {...item} />
             ))}
           </Stack>
         </CardBody>
