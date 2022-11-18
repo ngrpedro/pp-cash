@@ -1,5 +1,6 @@
 import { useState } from "react";
 import {
+  Flex,
   Modal,
   ModalOverlay,
   ModalContent,
@@ -17,6 +18,9 @@ import {
   GridItem,
   Grid,
   Box,
+  Radio,
+  RadioGroup,
+  Stack,
 } from "@chakra-ui/react";
 
 import ConfirmTransaction from "./ConfirmTransaction";
@@ -33,9 +37,19 @@ const GET_CONTACTS_QUERY = gql`
 `;
 
 const CREATE_TRANSACTION_MUTATION = gql`
-  mutation createTransaction($id: ID, $amount: Int) {
+  mutation createTransaction(
+    $id: ID
+    $amount: Int
+    $cashin: Boolean
+    $obs: String
+  ) {
     createTransaction(
-      data: { name: { connect: { Contact: { id: $id } } }, amount: $amount }
+      data: {
+        name: { connect: { Contact: { id: $id } } }
+        amount: $amount
+        cashin: $cashin
+        obs: $obs
+      }
     ) {
       id
     }
@@ -49,17 +63,16 @@ const NewTransaction = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [id, setId] = useState("");
   const [amount, setAmount] = useState(0);
+  const [cashin, setCashin] = useState(false);
+  const [obs, setObs] = useState("");
 
   const setTransaction = () => {
-    const transaction = {
-      id,
-      amount,
-    };
-
     addTransaction({
       variables: {
         id,
         amount,
+        cashin,
+        obs,
       },
     });
     onClose();
@@ -87,6 +100,29 @@ const NewTransaction = () => {
             <Text pb="4" fontSize={"xs"}>
               Selecione o contato e informe um valor
             </Text>
+            <Flex gap="5" mb="10px">
+              <Button
+                bg={
+                  cashin
+                    ? useColorModeValue("gray.300", "gray.500")
+                    : useColorModeValue("gray.500", "gray.500")
+                }
+                onClick={() => setCashin(false)}
+              >
+                Enviado
+              </Button>
+
+              <Button
+                bg={
+                  cashin
+                    ? useColorModeValue("gray.500", "gray.500")
+                    : useColorModeValue("gray.300", "gray.500")
+                }
+                onClick={() => setCashin(true)}
+              >
+                Recebido
+              </Button>
+            </Flex>
             <form className="flex flex-col gap-10">
               <div className="flex items-start justify-start gap-3 overflow-y-auto">
                 {data?.contacts.map((item) => (
@@ -117,13 +153,13 @@ const NewTransaction = () => {
                 ))}
               </div>
               <Grid
-                templateColumns={["repeat(1, 1fr)", "repeat(2, 1fr)"]}
+                templateColumns={["repeat(1, 1fr)", "repeat(1, 1fr)"]}
                 alignItems="end"
                 justifyContent={"center"}
                 gap="50"
               >
                 <GridItem>
-                  <FormControl className="md:ml-4">
+                  <FormControl>
                     <FormLabel>Valor</FormLabel>
                     <Input
                       pr="4.5rem"
@@ -133,8 +169,19 @@ const NewTransaction = () => {
                       onChange={(e) => setAmount(parseInt(e.target.value))}
                     />
                   </FormControl>
+
+                  <FormControl>
+                    <FormLabel>Observação</FormLabel>
+                    <Input
+                      pr="4.5rem"
+                      type="text"
+                      bg={useColorModeValue("white", "gray.800")}
+                      _focusVisible={{ borderColor: "black" }}
+                      onChange={(e) => setObs(e.target.value)}
+                    />
+                  </FormControl>
                 </GridItem>
-                <GridItem>
+                <GridItem className="space-y-5">
                   {id.length > 0 && (
                     <Box>
                       <Text>Enviar para: {id}</Text>

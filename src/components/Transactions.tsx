@@ -35,8 +35,6 @@ const GET_TRANSACTIONS_QUERY = gql`
 const Transactions = () => {
   const { data } = useQuery<GetQueryTransactions>(GET_TRANSACTIONS_QUERY);
 
-  console.log(data);
-
   return (
     <>
       <Card bg={useColorModeValue("white", "gray.700")}>
