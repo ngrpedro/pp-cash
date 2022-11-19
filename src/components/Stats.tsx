@@ -62,46 +62,45 @@ const Stats = () => {
 
   console.log(cashin, cashout);
   return (
-    <Grid
-      templateColumns={["repeat(1, 1fr)", "repeat(1, 1fr)", "repeat(2, 1fr)"]}
-      p="6"
-      gap="6"
-    >
-      <Stack gap="5">
-        <Card bg={useColorModeValue("white", "gray.700")}>
-          <CardBody>
-            <Stat>
-              <StatLabel></StatLabel>
-              <StatNumber>
-                <Flex alignItems={"center"} justifyContent={"space-between"}>
-                  R$ {cashin}.00
-                  <Box color={useColorModeValue("green.600", "green.200")}>
-                    <ArrowDown size={32} />
-                  </Box>
-                </Flex>
-              </StatNumber>
-              <StatHelpText>Income</StatHelpText>
-            </Stat>
-          </CardBody>
-        </Card>
-
-        <Card bg={useColorModeValue("white", "gray.700")}>
-          <CardBody>
-            <Stat>
-              <StatLabel></StatLabel>
-              <StatNumber>
-                <Flex alignItems={"center"} justifyContent={"space-between"}>
-                  R$ {cashout}.00
-                  <Box color={useColorModeValue("red.600", "red.200")}>
-                    <ArrowUp size={32} />
-                  </Box>
-                </Flex>
-              </StatNumber>
-              <StatHelpText>Expence</StatHelpText>
-            </Stat>
-          </CardBody>
-        </Card>
-      </Stack>
+    <Grid templateColumns={["repeat(1, 1fr)"]} p="6" gap="6">
+      <Grid gap="5" templateColumns={["repeat(1, 1fr)", "repeat(2, 1fr)"]}>
+        <GridItem>
+          <Card bg={useColorModeValue("white", "gray.700")}>
+            <CardBody>
+              <Stat>
+                <StatLabel></StatLabel>
+                <StatNumber>
+                  <Flex alignItems={"center"} justifyContent={"space-between"}>
+                    R$ {cashin}.00
+                    <Box color={useColorModeValue("green.600", "green.200")}>
+                      <ArrowDown size={32} />
+                    </Box>
+                  </Flex>
+                </StatNumber>
+                <StatHelpText>Income</StatHelpText>
+              </Stat>
+            </CardBody>
+          </Card>
+        </GridItem>
+        <GridItem>
+          <Card bg={useColorModeValue("white", "gray.700")}>
+            <CardBody>
+              <Stat>
+                <StatLabel></StatLabel>
+                <StatNumber>
+                  <Flex alignItems={"center"} justifyContent={"space-between"}>
+                    R$ {cashout}.00
+                    <Box color={useColorModeValue("red.600", "red.200")}>
+                      <ArrowUp size={32} />
+                    </Box>
+                  </Flex>
+                </StatNumber>
+                <StatHelpText>Expence</StatHelpText>
+              </Stat>
+            </CardBody>
+          </Card>
+        </GridItem>
+      </Grid>
       <Transactions />
     </Grid>
   );
