@@ -1,9 +1,38 @@
 import { Heading, Flex, useColorModeValue, IconButton } from "@chakra-ui/react";
 import { CurrencyCircleDollar, EyeClosed, Eye } from "phosphor-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { gql, useQuery } from "@apollo/client";
+import { GetQueryTransactions } from "./../types/Item";
+
+const GET_TRANSACTIONS_AMOUNT_QUERY = gql`
+  query {
+    transactions {
+      amount
+      cashin
+    }
+  }
+`;
 
 const TopBar = () => {
+  const { data } = useQuery<GetQueryTransactions>(
+    GET_TRANSACTIONS_AMOUNT_QUERY
+  );
   const [show, setShow] = useState(false);
+
+  var cashin = 0;
+  var cashout = 0;
+
+  data?.transactions.forEach((item) => {
+    if (item.cashin) {
+      return (cashin += item.amount);
+    }
+
+    if (!item.cashin) {
+      return (cashout += item.amount);
+    }
+  });
+
+  var total = cashin - cashout;
 
   return (
     <Flex
@@ -19,7 +48,7 @@ const TopBar = () => {
 
           {show ? (
             <Heading as="h1" size="md" noOfLines={1} w="8rem">
-              $$ 150,26
+              $$ {total},00
             </Heading>
           ) : (
             <Heading as="h1" size="md" noOfLines={1} w="8rem">

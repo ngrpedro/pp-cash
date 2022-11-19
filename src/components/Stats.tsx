@@ -30,8 +30,37 @@ import {
   ArrowDown,
   ArrowUp,
 } from "phosphor-react";
+import { gql, useQuery } from "@apollo/client";
+import { GetQueryTransactions } from "./../types/Item";
+
+const GET_TRANSACTIONS_AMOUNT_QUERY = gql`
+  query {
+    transactions {
+      amount
+      cashin
+    }
+  }
+`;
 
 const Stats = () => {
+  const { data } = useQuery<GetQueryTransactions>(
+    GET_TRANSACTIONS_AMOUNT_QUERY
+  );
+
+  var cashin = 0;
+  var cashout = 0;
+
+  data?.transactions.forEach((item) => {
+    if (item.cashin) {
+      return (cashin += item.amount);
+    }
+
+    if (!item.cashin) {
+      return (cashout += item.amount);
+    }
+  });
+
+  console.log(cashin, cashout);
   return (
     <Grid
       templateColumns={["repeat(1, 1fr)", "repeat(1, 1fr)", "repeat(2, 1fr)"]}
@@ -45,7 +74,7 @@ const Stats = () => {
               <StatLabel></StatLabel>
               <StatNumber>
                 <Flex alignItems={"center"} justifyContent={"space-between"}>
-                  R$ 0.00
+                  R$ {cashin}.00
                   <Box color={useColorModeValue("green.600", "green.200")}>
                     <ArrowDown size={32} />
                   </Box>
@@ -62,7 +91,7 @@ const Stats = () => {
               <StatLabel></StatLabel>
               <StatNumber>
                 <Flex alignItems={"center"} justifyContent={"space-between"}>
-                  R$ 0.00
+                  R$ {cashout}.00
                   <Box color={useColorModeValue("red.600", "red.200")}>
                     <ArrowUp size={32} />
                   </Box>
